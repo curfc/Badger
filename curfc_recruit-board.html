@@ -1554,12 +1554,13 @@ function EditModal({player, isNew, saving, years, onCancel, onSave, onDelete}){
         </div>
 
         <div className="rb-field" style={{marginBottom:12}}>
-          <label><span className="rb-field-num">13</span>リクルート状況（最大{RECRUIT_TAG_MAX}つまで選択可）</label>
+          <label><span className="rb-field-num">13</span>リクルート状況（最大3つまで選択可）</label>
           <div className="rb-tag-chips">
             {RECRUIT_TAGS.map(t=>{
-              const cur = form.recruitTags || [];
+              const cur = Array.isArray(form.recruitTags) ? form.recruitTags : [];
               const active = cur.includes(t.code);
-              const disabled = !active && cur.length >= RECRUIT_TAG_MAX;
+              const reachedMax = cur.length >= 3;
+              const disabled = !active && reachedMax;
               return (
                 <button
                   type="button"
@@ -1570,7 +1571,7 @@ function EditModal({player, isNew, saving, years, onCancel, onSave, onDelete}){
                   onClick={()=>{
                     if(active){
                       set('recruitTags', cur.filter(c=>c!==t.code));
-                    } else if(cur.length < RECRUIT_TAG_MAX){
+                    } else if(!reachedMax){
                       set('recruitTags', [...cur, t.code]);
                     }
                   }}
