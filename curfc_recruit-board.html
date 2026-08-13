@@ -1375,6 +1375,9 @@ function App(){
                         {p.positions.length > 1 && (
                           <div className="rb-card-sub">{p.positions.map(displayCode).join(' / ')}</div>
                         )}
+                        {p.playStyle && (
+                          <div className="rb-card-playstyle">{p.playStyle}</div>
+                        )}
                       </div>
                       <span className={"rb-rank-badge rb-rank-" + p.rank}>{p.rank}</span>
                     </div>
