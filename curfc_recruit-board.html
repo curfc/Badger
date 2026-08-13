@@ -1606,10 +1606,11 @@ function SlotEditor({year, slots, onCancel, onSave}){
     rows.forEach(row => counts[row.code] = (counts[row.code]||0)+1);
     return POSITIONS.filter(p=>counts[p.code]).map(p=>`${p.code} × ${counts[p.code]}`).join('　');
   },[rows]);
+return (
+  <div className="rb-overlay" onClick={e=>{ if(e.target===e.currentTarget) onCancel(); }}>
+    <div className="rb-modal">
+      <img src="images/画像1.gif" alt="エンブレム" style={{ width: '60px', display: 'block', margin: '0 auto' }} /> 
 
-  return (
-    <div className="rb-overlay" onClick={e=>{ if(e.target===e.currentTarget) onCancel(); }}>
-      <div className="rb-modal">
         <h3>{year}年度 ポジション枠設定</h3>
         <div className="rb-modal-sub">獲得したいポジションを枠の数だけ設定し、重要度（🟥最重要／🟧重要／🟨標準）を選んでください</div>
 
