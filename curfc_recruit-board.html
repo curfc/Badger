@@ -1151,6 +1151,27 @@ function App(){
     setEditing(null);
   };
 
+const duplicatePlayer = async (p) => {
+  // 新しいIDを作る（元のIDに "_copy" を付けるなど）
+  const newId = p.id + "_copy_" + Date.now();
+
+  // 複写データを作成
+  const copied = {
+    ...p,
+    id: newId,
+    updatedAt: Date.now(),
+    updatedBy: editorName || p.updatedBy || '',
+  };
+
+  // savePlayer と同じ処理
+  const players = [...db.players, copied];
+  await persist({ ...db, players });
+
+  // 複写後にその選手を編集画面に表示したい場合
+  setEditing(copied);
+};
+
+  
   const deletePlayer = async (id) => {
     const players = db.players.filter(x=>x.id!==id);
     await persist({...db, players});
