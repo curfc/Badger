@@ -1400,6 +1400,7 @@ function App(){
 
       {editing && (
         <EditModal
+          key={editing.id}
           player={editing}
           isNew={isNew}
           saving={saving}
