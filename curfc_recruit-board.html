@@ -738,7 +738,28 @@
     .rb-field-grid{grid-template-columns:1fr;}
   }
 </style>
-.rb-card-playstyle{
+  @media (min-width:641px){
+    .rb-col{
+      max-height:560px;
+      overflow-y:auto;
+      padding-right:4px;
+    }
+    .rb-col::-webkit-scrollbar{width:6px;}
+    .rb-col::-webkit-scrollbar-thumb{background:var(--card-border); border-radius:3px;}
+    .rb-col::-webkit-scrollbar-track{background:transparent;}
+
+    .rb-card{padding:8px 10px;}
+    .rb-jersey{font-size:11px; min-width:22px; height:22px;}
+    .rb-card-name{font-size:14px;}
+    .rb-card-hw{font-size:12px;}
+    .rb-card-sub{font-size:10px;}
+    .rb-card-playstyle{font-size:9.5px;}
+    .rb-card-updated{font-size:9px;}
+    .rb-rank-badge{font-size:13px; padding:2px 7px;}
+    .rb-tag-badge{font-size:9px; padding:1px 6px;}
+  }
+  
+  .rb-card-playstyle{
     font-size:5px;
     line-height:1.4;
     color:var(--chalk-dim);
