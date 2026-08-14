@@ -1493,60 +1493,28 @@ const duplicatePlayer = async (p) => {
         })}
       </div>
       
-          return (
-            <div className="rb-col" key={st.code} style={{'--col-color':st.color}}>
-              <div className="rb-col-head">
-                <span className="rb-col-title">{st.label}</span>
-                <span className="rb-col-count">{list.length}</span>
-              </div>
-              {list.length===0 ? (
-                <div className="rb-empty-col">なし</div>
-              ) : (
-                <div className="rb-col-split">
-                  <div className="rb-col-split-group">
-                    <div className="rb-col-split-label">FW（{fwList.length}）</div>
-                    {fwList.length===0 && <div className="rb-empty-col">なし</div>}
-                    {fwList.map(renderCard)}
-                  </div>
-                  <div className="rb-col-split-group">
-                    <div className="rb-col-split-label">BK（{bkList.length}）</div>
-                    {bkList.length===0 && <div className="rb-empty-col">なし</div>}
-                    {bkList.map(renderCard)}
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div> 
+            <div className="rb-board">
+        {STATUSES.map(st=>{
+          const list = filtered
+            .filter(p=>p.status===st.code)
+            .slice()
+            .sort((a,b)=>{
+              const oa = posOrderIndex[a.positions[0]] ?? 999;
+              const ob = posOrderIndex[b.positions[0]] ?? 999;
+              return oa - ob;
+            });
+
+          const renderCard = (p) => { ... };
+
+          const isCandidateStatus = st.code === 'candidate';
 
           return (
             <div className="rb-col" key={st.code} style={{'--col-color':st.color}}>
-              <div className="rb-col-head">
-                <span className="rb-col-title">{st.label}</span>
-                <span className="rb-col-count">{list.length}</span>
-              </div>
-              {list.length===0 ? (
-                <div className="rb-empty-col">なし</div>
-              ) : (
-                <div className="rb-col-split">
-                  <div className="rb-col-split-group">
-                    <div className="rb-col-split-label">FW（{fwList.length}）</div>
-                    {fwList.length===0 && <div className="rb-empty-col">なし</div>}
-                    {fwList.map(renderCard)}
-                  </div>
-                  <div className="rb-col-split-group">
-                    <div className="rb-col-split-label">BK（{bkList.length}）</div>
-                    {bkList.length===0 && <div className="rb-empty-col">なし</div>}
-                    {bkList.map(renderCard)}
-                  </div>
-                </div>
-              )}
+              ...
             </div>
           );
         })}
-      </div>
-                
+      </div>    
 
       {editing && (
         <EditModal
