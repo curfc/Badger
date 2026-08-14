@@ -1731,7 +1731,7 @@ function comparePlayers(a, b){
 function PositionBoardPage({yearPlayers, targetSlots, onBack, onOpenPlayer}){
   const rows = POSITIONS.map(pos => {
     const players = yearPlayers
-      .filter(p => p.positions.includes(pos.code))
+      .filter(p => p.positions[0] === pos.code)   // 主ポジション（青字表示）のみで判定
       .slice()
       .sort(comparePlayers);
     return {pos, players};
