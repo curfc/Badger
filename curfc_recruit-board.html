@@ -1493,29 +1493,7 @@ const duplicatePlayer = async (p) => {
         })}
       </div>
       
-            <div className="rb-board">
-        {STATUSES.map(st=>{
-          const list = filtered
-            .filter(p=>p.status===st.code)
-            .slice()
-            .sort((a,b)=>{
-              const oa = posOrderIndex[a.positions[0]] ?? 999;
-              const ob = posOrderIndex[b.positions[0]] ?? 999;
-              return oa - ob;
-            });
-
-          const renderCard = (p) => { ... };
-
-          const isCandidateStatus = st.code === 'candidate';
-
-          return (
-            <div className="rb-col" key={st.code} style={{'--col-color':st.color}}>
-              ...
-            </div>
-          );
-        })}
-      </div>    
-
+          
       {editing && (
         <EditModal
           key={editing.id}
