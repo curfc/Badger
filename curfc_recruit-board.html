@@ -824,39 +824,50 @@
       display:flex;
       flex-wrap:nowrap;
       align-items:center;
-      gap:8px;
+      gap:10px;
+      overflow-x:visible;
     }
     .rb-toolbar-row{
       display:flex;
       flex-wrap:nowrap;
       align-items:center;
-      flex:0 0 auto;
-      gap:8px;
+      flex:0 1 auto;
+      gap:10px;
+      min-width:0;
     }
     .rb-input,
     .rb-select,
-    .rb-pos-filter{
-      height:34px;
+    .rb-pos-filter,
+    .rb-btn{
+      height:36px;
       box-sizing:border-box;
       font-size:13px;
     }
     .rb-input{
-      flex:0 1 260px;
-      max-width:260px;
+      flex:1 1 240px;
+      min-width:120px;
+      max-width:280px;
+      padding:0 10px;
+    }
+    .rb-select{
+      flex:0 0 130px;
+      min-width:110px;
       padding:0 8px;
     }
-    .rb-select,
     .rb-pos-filter{
-      flex:1 1 140px;
-      padding:0 6px;
+      flex:0 0 160px;
+      min-width:140px;
+    }
+    .rb-pos-filter-btn{
+      height:100%;
+      padding:0 8px;
     }
     .rb-btn{
       flex:0 0 auto;
       width:auto;
-      height:34px;
-      box-sizing:border-box;
       white-space:nowrap;
-    }
+      padding:0 16px;
+    }   
 }
 .rb-posboard{
   padding:6px 22px 22px;    /* 変更後：上だけ狭く */
