@@ -320,8 +320,9 @@
     color:var(--chalk);
   }
   .rb-btn.ghost:hover{background:var(--card-bg);}
-    .rb-board{
+     .rb-board{
     display:flex;
+    align-items:flex-start;
     gap:12px;
     padding:16px 22px 22px;
     overflow-x:auto;
@@ -331,10 +332,12 @@
     flex-direction:column;
     gap:10px;
     min-height:120px;
-    flex:0 0 260px;   /* 候補以外の列は狭め */
+    width:260px;
+    flex:0 0 260px;
   }
   .rb-col.rb-col-candidate{
-    flex:0 0 528px;   /* 260px×2 + gap 8px */
+    width:528px;        /* 260px×2 + gap(8px) */
+    flex:0 0 528px;
   }
   .rb-col-head{
     display:flex;
