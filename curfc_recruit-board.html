@@ -911,19 +911,48 @@ const USE_SUPABASE = !!sbClient;
 
 async function sharedGet(key){
   if(sbClient){
-    const { data, error } = await sbClient.from('app_storage').select('value').eq('key', key).maybeSingle();
+    const { data, error } = await sbClient
+      .from('app_storage')
+      .select('value, version')
+      .eq('key', key)
+      .maybeSingle();
     if(error) throw error;
-    return data ? { key, value: JSON.stringify(data.value) } : null;
+    return data
+      ? { key, value: JSON.stringify(data.value), version: data.version ?? 1 }
+      : null;
   }
   return window.storage.get(key, true);
 }
-async function sharedSet(key, value){
+
+async function sharedSet(key, value, currentVersion){
   if(sbClient){
-    const { error } = await sbClient.from('app_storage').upsert({ key, value: JSON.parse(value), updated_at: new Date().toISOString() });
+    const nextVersion = (currentVersion ?? 0) + 1;
+    const parsedValue = JSON.parse(value);
+
+    if(currentVersion === undefined || currentVersion === null){
+      const { data, error } = await sbClient
+        .from('app_storage')
+        .upsert({ key, value: parsedValue, version: nextVersion, updated_at: new Date().toISOString() })
+        .select();
+      if(error) throw error;
+      return { success:true, key, value, version: nextVersion };
+    }
+
+    const { data, error } = await sbClient
+      .from('app_storage')
+      .update({ value: parsedValue, version: nextVersion, updated_at: new Date().toISOString() })
+      .eq('key', key)
+      .eq('version', currentVersion)
+      .select();
     if(error) throw error;
-    return { key, value };
+
+    if(!data || data.length === 0){
+      return { success:false, reason:'conflict' };
+    }
+    return { success:true, key, value, version: nextVersion };
   }
-  return window.storage.set(key, value, true);
+  const r = await window.storage.set(key, value, true);
+  return { success:true, ...r };
 }
 async function personalGet(key){
   if(sbClient){
