@@ -1614,39 +1614,8 @@ const duplicatePlayer = async (p) => {
           onOpenPlayer={(p)=>{ setIsNew(false); setEditing(p); }}
         />
       )}
-          const isCandidateStatus = st.code === 'candidate'; // ★候補ステータスのコードに合わせて調整
-
-          return (
-            　 <div className={"rb-col" + (isCandidateStatus ? " rb-col-candidate" : "")} key={st.code} style={{'--col-color':st.color}}>
-              <div className="rb-col-head">
-                <span className="rb-col-title">{st.label}</span>
-                <span className="rb-col-count">{list.length}</span>
-              </div>
-
-              {list.length===0 ? (
-                <div className="rb-empty-col">なし</div>
-              ) : isCandidateStatus ? (
-                (() => {
-                  const fwList = list.filter(p => {
-                    const pos = posMap[p.positions[0]];
-                    return pos && pos.group === 'FW';
-                  });
-                  const bkList = list.filter(p => {
-                    const pos = posMap[p.positions[0]];
-                    return !pos || pos.group !== 'FW';
-                  });
-                  return (
-                    <div className="rb-col-split">
-                      <div className="rb-col-split-group">
-                        <div className="rb-col-split-label">FW（{fwList.length}）</div>
-                        {fwList.length===0 && <div className="rb-empty-col">なし</div>}
-                        {fwList.map(renderCard)}
-                      </div>
-                      <div className="rb-col-split-group">
-                        <div className="rb-col-split-label">BK（{bkList.length}）</div>
-                        {bkList.lengt
-      
           
+                
       {editing && (
         <EditModal
           key={editing.id}
