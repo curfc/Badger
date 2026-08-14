@@ -1395,7 +1395,7 @@ const duplicatePlayer = async (p) => {
         </button>
       </div>
 
-      <div className="rb-board">
+            <div className="rb-board">
         {STATUSES.map(st=>{
           const list = filtered
             .filter(p=>p.status===st.code)
@@ -1405,59 +1405,86 @@ const duplicatePlayer = async (p) => {
               const ob = posOrderIndex[b.positions[0]] ?? 999;
               return oa - ob;
             });
+
+          const fwList = list.filter(p => {
+            const pos = posMap[p.positions[0]];
+            return pos && pos.group === 'FW';
+          });
+          const bkList = list.filter(p => {
+            const pos = posMap[p.positions[0]];
+            return !pos || pos.group !== 'FW';
+          });
+
+          const renderCard = (p) => {
+            const tag = primaryTag(p.recruitTags);
+            return (
+              <div
+                className="rb-card"
+                key={p.id}
+                style={tag ? {borderLeftColor: tag.color} : undefined}
+                onClick={()=>{setIsNew(false); setEditing(p);}}
+              >
+                <div className="rb-card-top">
+                  <div className="rb-jersey">{p.positions[0] ? displayCode(p.positions[0]) : '-'}</div>
+                  <div className="rb-card-info">
+                    <div className="rb-card-name">
+                      {p.name || '(未入力)'}{p.highSchool && <span className="rb-card-hs">（{p.highSchool}）</span>}
+                    </div>
+                    {(p.height || p.weight) && (
+                      <div className="rb-card-hw">{p.height ? p.height+'cm' : ''}{p.height && p.weight ? ' / ' : ''}{p.weight ? p.weight+'kg' : ''}</div>
+                    )}
+                    {p.positions.length > 1 && (
+                      <div className="rb-card-sub">{p.positions.map(displayCode).join(' / ')}</div>
+                    )}
+                    {p.playStyle && (
+                      <div className="rb-card-playstyle">{p.playStyle}</div>
+                    )}
+                  </div>
+                  <span className={"rb-rank-badge rb-rank-" + p.rank}>{p.rank}</span>
+                </div>
+                {p.recruitTags && p.recruitTags.length > 0 && (
+                  <div className="rb-tag-row">
+                    {p.recruitTags.map(tc => recruitTagMap[tc] && (
+                      <span key={tc} className="rb-tag-badge" style={{'--tag-color':recruitTagMap[tc].color}}>{recruitTagMap[tc].label}</span>
+                    ))}
+                  </div>
+                )}
+                {p.updatedAt && (
+                  <div className="rb-card-updated">
+                    更新: {formatDateTime(p.updatedAt)}{p.updatedBy ? ` ・ ${p.updatedBy}` : ''}
+                  </div>
+                )}
+              </div>
+            );
+          };
+
           return (
             <div className="rb-col" key={st.code} style={{'--col-color':st.color}}>
               <div className="rb-col-head">
                 <span className="rb-col-title">{st.label}</span>
                 <span className="rb-col-count">{list.length}</span>
               </div>
-              {list.length===0 && <div className="rb-empty-col">なし</div>}
-              {list.map(p=>{
-                const tag = primaryTag(p.recruitTags);
-                return (
-                  <div
-                    className="rb-card"
-                    key={p.id}
-                    style={tag ? {borderLeftColor: tag.color} : undefined}
-                    onClick={()=>{setIsNew(false); setEditing(p);}}
-                  >
-                    <div className="rb-card-top">
-                      <div className="rb-jersey">{p.positions[0] ? displayCode(p.positions[0]) : '-'}</div>
-                      <div className="rb-card-info">
-                        <div className="rb-card-name">
-                          {p.name || '(未入力)'}{p.highSchool && <span className="rb-card-hs">（{p.highSchool}）</span>}
-                        </div>
-                        {(p.height || p.weight) && (
-                          <div className="rb-card-hw">{p.height ? p.height+'cm' : ''}{p.height && p.weight ? ' / ' : ''}{p.weight ? p.weight+'kg' : ''}</div>
-                        )}
-                        {p.positions.length > 1 && (
-                          <div className="rb-card-sub">{p.positions.map(displayCode).join(' / ')}</div>
-                        )}
-                        {p.playStyle && (
-                          <div className="rb-card-playstyle">{p.playStyle}</div>
-                        )}
-                      </div>
-                      <span className={"rb-rank-badge rb-rank-" + p.rank}>{p.rank}</span>
-                    </div>
-                    {p.recruitTags && p.recruitTags.length > 0 && (
-                      <div className="rb-tag-row">
-                        {p.recruitTags.map(tc => recruitTagMap[tc] && (
-                          <span key={tc} className="rb-tag-badge" style={{'--tag-color':recruitTagMap[tc].color}}>{recruitTagMap[tc].label}</span>
-                        ))}
-                      </div>
-                    )}
-                    {p.updatedAt && (
-                      <div className="rb-card-updated">
-                        更新: {formatDateTime(p.updatedAt)}{p.updatedBy ? ` ・ ${p.updatedBy}` : ''}
-                      </div>
-                    )}
+              {list.length===0 ? (
+                <div className="rb-empty-col">なし</div>
+              ) : (
+                <div className="rb-col-split">
+                  <div className="rb-col-split-group">
+                    <div className="rb-col-split-label">FW（{fwList.length}）</div>
+                    {fwList.length===0 && <div className="rb-empty-col">なし</div>}
+                    {fwList.map(renderCard)}
                   </div>
-                );
-              })}
+                  <div className="rb-col-split-group">
+                    <div className="rb-col-split-label">BK（{bkList.length}）</div>
+                    {bkList.length===0 && <div className="rb-empty-col">なし</div>}
+                    {bkList.map(renderCard)}
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
       </div>
+                
 
       {editing && (
         <EditModal
