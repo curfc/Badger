@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>リクルート候補一覧</title>
+
+  <!-- 既存の CSS を読み込む（あなたの recruit-board と同じ） -->
+  <link rel="stylesheet" href="curfc_styles.css" />
+
+  <!-- React & Babel -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* ミニマムカード（スマホ向け） */
+    .mini-card {
+      min-width: 140px;
+      padding: 8px;
+      border-radius: 6px;
+      background: #f5f5f5;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      font-size: 12px;
+    }
+    .mini-name {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .mini-school {
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .mini-body {
+      color: #333;
+    }
+
+    /* レイアウト（縦ポジション × 横候補者） */
+    .candidate-row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .candidate-pos-title {
+      width: 60px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .candidate-cards {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    /* --- あなたの POSITIONS と displayCode をそのまま利用 --- */
+    const POSITIONS = [
+      {code:'PR1', label:'PR1（プロップ）', num:1, group:'FW'},
+      {code:'PR3', label:'PR3（プロップ）', num:3, group:'FW'},
+      {code:'HO', label:'HO（フッカー）', num:2, group:'FW'},
+      {code:'LO', label:'LO（ロック）', num:4, group:'FW'},
+      {code:'FL', label:'FL（フランカー）', num:6, group:'FW'},
+      {code:'NO8', label:'No.8（ナンバーエイト）', num:8, group:'FW'},
+      {code:'SH', label:'SH（スクラムハーフ）', num:9, group:'BK'},
+      {code:'SO', label:'SO（スタンドオフ）', num:10, group:'BK'},
+      {code:'CTB12', label:'CTB12（センター）', num:12, group:'BK'},
+      {code:'CTB13', label:'CTB13（センター）', num:13, group:'BK'},
+      {code:'WTB11', label:'WTB11（ウィング）', num:11, group:'BK'},
+      {code:'WTB14', label:'WTB14（ウィング）', num:14, group:'BK'},
+      {code:'FB', label:'FB（フルバック）', num:15, group:'BK'},
+    ];
+
+    function displayCode(code){
+      return (code && (code.startsWith('CTB') || code.startsWith('WTB')))
+        ? code.replace(/\d+$/, '')
+        : code;
+    }
+
+    /* --- DB 読み込み（あなたの recruit-board と同じ） --- */
+    function loadDB(){
+      try {
+        return JSON.parse(localStorage.getItem('curfc-db')) || {};
+      } catch(e){
+        return {};
+      }
+    }
+
+    /* --- ミニマムカード --- */
+    function MiniCard({p}){
+      return (
+        <div className="mini-card">
+          <div className="mini-name">{p.name}（{displayCode(p.positions?.[0])}）</div>
+          <div className="mini-school">{p.highSchool}</div>
+          <div className="mini-body">{p.height}cm / {p.weight}kg</div>
+        </div>
+      );
+    }
+
+    /* --- メインコンポーネント --- */
+    function CandidateBoard(){
+      const db = loadDB();
+
+      const requiredPositions = db.requiredPositions || [];
+      const players = db.players || [];
+
+      const candidates = players.filter(p => p.status === 'candidate');
+
+      const grouped = requiredPositions.map(pos => ({
+        pos,
+        players: candidates.filter(p => p.positions?.[0] === pos)
+      }));
+
+      return (
+        <div style={{padding:20}}>
+          <div className="page-title">リクルート候補一覧</div>
+
+          <button
+            className="rb-btn"
+            onClick={()=>location.href='curfc_recruit-board.html'}
+            style={{marginBottom:20}}
+          >
+            リクルートボードに戻る
+          </button>
+
+          {grouped.map(g => (
+            <div key={g.pos} className="candidate-row">
+              <div className="candidate-pos-title">{displayCode(g.pos)}</div>
+              <div className="candidate-cards">
+                {g.players.map(p => <MiniCard key={p.id} p={p} />)}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    ReactDOM.render(<CandidateBoard />, document.getElementById('root'));
+
+  </script>
+</body>
+</html>
