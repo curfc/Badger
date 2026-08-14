@@ -744,21 +744,40 @@
     .rb-slot{min-width:19px;height:25px;font-size:9.5px;}
     .rb-slot-count{font-size:12.5px;}
 
-    .rb-toolbar{
-      flex-direction:column;
-      align-items:stretch;
-      padding:12px 14px;
+        .rb-toolbar{
+      flex-direction:row;
+      flex-wrap:nowrap;
+      align-items:center;
+      padding:10px 14px;
+      gap:6px;
     }
-    .rb-input{width:100%;min-width:0;}
-    .rb-pos-filter{width:100%;}
-    .rb-pos-filter-btn{width:100%;justify-content:space-between;}
-    .rb-select{width:100%;min-width:0;}
+    .rb-input,
+    .rb-select,
+    .rb-pos-filter,
+    .rb-btn{
+      height:32px;
+      box-sizing:border-box;
+      font-size:12px;
+    }
+    .rb-input{
+      flex:0 1 140px;
+      min-width:0;
+      width:auto;
+      padding:0 6px;
+    }
+    .rb-pos-filter{width:auto;flex:1 1 90px;min-width:0;}
+    .rb-pos-filter-btn{width:100%;justify-content:space-between;padding:0 6px;}
+    .rb-select{width:auto;flex:1 1 90px;min-width:0;padding:0 6px;}
     .rb-toolbar-row{
       display:flex;
-      gap:8px;
+      flex-wrap:nowrap;
+      align-items:center;
+      gap:6px;
+      flex:1 1 auto;
+      min-width:0;
     }
     .rb-toolbar-row > *{flex:1;min-width:0;}
-    .rb-btn{width:100%;justify-content:center;}
+    .rb-btn{width:auto;justify-content:center;padding:0 10px;white-space:nowrap;flex:0 0 auto;}
 
     .rb-board{
       grid-auto-columns:78vw;
