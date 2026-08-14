@@ -1894,14 +1894,15 @@ function EditModal({player, isNew, saving, years, onCancel, onSave, onDelete}){
         </div>
 
         <div className="rb-field-grid full">
-          <div className="rb-field">
-            <label><span className="rb-field-num">7</span>プレーの特徴</label>
-          .rb-playstyle {
-  font-size: 11px;   /* 好きなサイズに変更可能 */
-  line-height: 1.4;
-}
-
-          </div>
+  <div className="rb-field">
+    <label><span className="rb-field-num">7</span>プレーの特徴</label>
+    <textarea
+      className="rb-playstyle"
+      value={form.playStyle}
+      onChange={e => set('playStyle', e.target.value)}
+      placeholder="例：走力、キック、判断、運動量 など"
+    />
+  </div>
           <div className="rb-field">
             <label><span className="rb-field-num">8</span>その他情報</label>
             <textarea value={form.otherInfo} onChange={e=>set('otherInfo', e.target.value)} placeholder="記入例：役職、性格、学力など" />
