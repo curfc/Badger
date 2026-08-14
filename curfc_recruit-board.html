@@ -1177,6 +1177,7 @@ function App(){
   const [lastSavedAt, setLastSavedAt] = useState(null);
   const [editorName, setEditorName] = useState('');
   const [dataVersion, setDataVersion] = useState(0);
+  const [view, setView] = useState('board');
   const fileInputRef = useRef(null);
 
   useEffect(()=>{
