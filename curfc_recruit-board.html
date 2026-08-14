@@ -1672,6 +1672,19 @@ const duplicatePlayer = async (p) => {
   );
 }
 
+function comparePlayers(a, b){
+  const rankOrder = {S:0, A:1, B:2, C:3};
+  const ra = rankOrder[a.rank] ?? 99;
+  const rb = rankOrder[b.rank] ?? 99;
+  if(ra !== rb) return ra - rb;
+
+  const ta = primaryTag(a.recruitTags);
+  const tb = primaryTag(b.recruitTags);
+  const ia = ta ? RECRUIT_TAGS.indexOf(ta) : 99;
+  const ib = tb ? RECRUIT_TAGS.indexOf(tb) : 99;
+  return ia - ib;
+}                      
+                      
 function EditModal({player, isNew, saving, years, onCancel, onSave, onDelete}){
   const [form, setForm] = useState(player);
   const set = (k,v) => setForm(f=>({...f, [k]:v}));
