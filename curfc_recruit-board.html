@@ -801,32 +801,43 @@
     .rb-card-updated{font-size:9px;}
     .rb-rank-badge{font-size:13px; padding:2px 7px;}
     .rb-tag-badge{font-size:9px; padding:1px 6px;}
- .rb-toolbar{
+    .rb-toolbar{
       display:flex;
       flex-wrap:nowrap;
       align-items:center;
+      gap:8px;
     }
     .rb-toolbar-row{
       display:flex;
       flex-wrap:nowrap;
+      align-items:center;
       flex:0 0 auto;
+      gap:8px;
     }
-        .rb-input{
-      flex:0 1 220px;
-      max-width:220px;
-      height:32px;
+    .rb-input,
+    .rb-select,
+    .rb-pos-filter{
+      height:34px;
+      box-sizing:border-box;
       font-size:13px;
-      padding:4px 8px;
+    }
+    .rb-input{
+      flex:0 1 260px;
+      max-width:260px;
+      padding:0 8px;
     }
     .rb-select,
     .rb-pos-filter{
       flex:1 1 140px;
+      padding:0 6px;
     }
     .rb-btn{
       flex:0 0 auto;
       width:auto;
+      height:34px;
+      box-sizing:border-box;
       white-space:nowrap;
-    } 
+    }
 }
 .rb-posboard{
   padding:6px 22px 22px;    /* 変更後：上だけ狭く */
