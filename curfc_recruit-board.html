@@ -1894,42 +1894,23 @@ function EditModal({player, isNew, saving, years, onCancel, onSave, onDelete}){
         </div>
 
         <div className="rb-field-grid full">
-  <div className="rb-field">
-    <label><span className="rb-field-num">7</span>プレーの特徴</label>
-    <textarea
-      className="rb-playstyle"
-      value={form.playStyle}
-      onChange={e => set('playStyle', e.target.value)}
-      placeholder="例：走力、キック、判断、運動量 など"
-    />
-  </div>
-         <div className="rb-field">
-    <label><span className="rb-field-num">8</span>その他情報</label>
-    <textarea
-      value={form.otherInfo}
-      onChange={e=>set('otherInfo', e.target.value)}
-      placeholder="記入例：役職、性格、学力など"
-    />
-  </div>
-
-  <div className="rb-field">
-    <label><span className="rb-field-num">9</span>代表歴等</label>
-    <textarea
-      value={form.repHistory}
-      onChange={e=>set('repHistory', e.target.value)}
-      placeholder="U18日本代表候補、県選抜など"
-    />
-  </div>
-
-  <div className="rb-field">
-    <label><span className="rb-field-num">10</span>強化委員＆リクルーターコメント</label>
-    <textarea
-      value={form.comment}
-      onChange={e=>set('comment', e.target.value)}
-      placeholder="評価コメント"
-    />
-  </div>
-</div>  
+          <div className="rb-field">
+            <label><span className="rb-field-num">7</span>プレーの特徴</label>
+            <textarea value={form.playStyle} onChange={e=>set('playStyle', e.target.value)} placeholder="接点の強さ、突破力、キック精度など" />
+          </div>
+          <div className="rb-field">
+            <label><span className="rb-field-num">8</span>その他情報</label>
+            <textarea value={form.otherInfo} onChange={e=>set('otherInfo', e.target.value)} placeholder="記入例：役職、性格、学力など" />
+          </div>
+          <div className="rb-field">
+            <label><span className="rb-field-num">9</span>代表歴等</label>
+            <textarea value={form.repHistory} onChange={e=>set('repHistory', e.target.value)} placeholder="U18日本代表候補、県選抜など" />
+          </div>
+          <div className="rb-field">
+            <label><span className="rb-field-num">10</span>強化委員＆リクルーターコメント</label>
+            <textarea value={form.comment} onChange={e=>set('comment', e.target.value)} placeholder="評価コメント" />
+          </div>
+        </div>
 
         <div className="rb-field-grid">
           <div className="rb-field">
@@ -2055,3 +2036,5 @@ ReactDOM.createRoot(document.getElementById('app')).render(<App />);
 </script>
 </body>
 </html>
+
+
