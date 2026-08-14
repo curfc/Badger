@@ -1469,7 +1469,7 @@ const duplicatePlayer = async (p) => {
             <button className="rb-labeled-btn" title="年度を追加" onClick={addYear}>
               <i className="ti ti-calendar-plus" aria-hidden="true"></i><span className="rb-btn-label">年度追加</span>
             </button>
-            <button className="rb-labeled-btn" title="ポジション別に候補者を一覧表示" onClick={()=>setView('positions')}>
+            <button className="rb-labeled-btn rb-btn-candidates" title="ポジション別に候補者を一覧表示" onClick={()=>setView('positions')}>
               <i className="ti ti-list" aria-hidden="true"></i><span className="rb-btn-label">候補者一覧</span>
             </button>
             <button className="rb-labeled-btn" title="ポジション枠を編集" onClick={()=>setSlotEditorOpen(true)}>
