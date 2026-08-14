@@ -1458,7 +1458,7 @@ const duplicatePlayer = async (p) => {
           const isCandidateStatus = st.code === 'candidate'; // ★候補ステータスのコードに合わせて調整
 
           return (
-            <div className="rb-col" key={st.code} style={{'--col-color':st.color}}>
+            　 <div className={"rb-col" + (isCandidateStatus ? " rb-col-candidate" : "")} key={st.code} style={{'--col-color':st.color}}>
               <div className="rb-col-head">
                 <span className="rb-col-title">{st.label}</span>
                 <span className="rb-col-count">{list.length}</span>
