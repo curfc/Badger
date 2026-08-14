@@ -1653,7 +1653,64 @@ function comparePlayers(a, b){
   const ib = tb ? RECRUIT_TAGS.indexOf(tb) : 99;
   return ia - ib;
 }                      
-                      
+function PositionBoardPage({yearPlayers, targetSlots, onBack, onOpenPlayer}){
+  const rows = POSITIONS.map(pos => {
+    const players = yearPlayers
+      .filter(p => p.positions.includes(pos.code))
+      .slice()
+      .sort(comparePlayers);
+    return {pos, players};
+  }).filter(r => r.players.length > 0);
+
+  return (
+    <div className="rb-posboard">
+      <div className="rb-toolbar">
+        <button className="rb-btn ghost" onClick={onBack}>
+          <i className="ti ti-arrow-left" aria-hidden="true"></i>ボードに戻る
+        </button>
+      </div>
+
+      {rows.length === 0 && (
+        <div className="rb-empty-col">候補者がいません</div>
+      )}
+
+      {rows.map(({pos, players}) => (
+        <div className="rb-posboard-row" key={pos.code}>
+          <div className="rb-posboard-row-head">
+            <span className="rb-posboard-pos">{displayCode(pos.code)}</span>
+            <span className="rb-posboard-count">{players.length}名</span>
+          </div>
+          <div className="rb-posboard-cards">
+            {players.map(p => {
+              const tag = primaryTag(p.recruitTags);
+              const st = statusMap[p.status];
+              return (
+                <div
+                  className="rb-posboard-card"
+                  key={p.id}
+                  style={{'--col-color': (st ? st.color : undefined), borderLeftColor: tag ? tag.color : undefined}}
+                  onClick={() => onOpenPlayer(p)}
+                >
+                  <div className="rb-posboard-card-top">
+                    <span className="rb-posboard-card-name">{p.name || '(未入力)'}</span>
+                    <span className={"rb-rank-badge rb-rank-" + p.rank}>{p.rank}</span>
+                  </div>
+                  {p.highSchool && <div className="rb-posboard-card-hs">{p.highSchool}</div>}
+                  {(p.height || p.weight) && (
+                    <div className="rb-posboard-card-hw">
+                      {p.height ? p.height + 'cm' : ''}{p.height && p.weight ? ' / ' : ''}{p.weight ? p.weight + 'kg' : ''}
+                    </div>
+                  )}
+                  {st && <div className="rb-card-sub">{st.label}</div>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}                      
 function EditModal({player, isNew, saving, years, onCancel, onSave, onDelete}){
   const [form, setForm] = useState(player);
   const set = (k,v) => setForm(f=>({...f, [k]:v}));
