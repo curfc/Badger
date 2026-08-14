@@ -1155,6 +1155,7 @@ function App(){
       }
       const data = res && res.value ? normalizeData(JSON.parse(res.value)) : normalizeData([]);
       setDb(data);
+      setDataVersion(res && res.version ? res.version : 0);
       setYear(y => {
         const years = Object.keys(data.yearSettings);
         if(!years.length) return y;
