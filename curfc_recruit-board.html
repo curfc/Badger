@@ -1079,9 +1079,12 @@ async function sharedSet(key, value, currentVersion){
 
     if(currentVersion === undefined || currentVersion === null){
       const { data, error } = await sbClient
-        .from('app_storage')
-        .upsert({ key, value: parsedValue, version: nextVersion, updated_at: new Date().toISOString() })
-        .select();
+  .from('app_storage')
+  .upsert(
+    { key, value: parsedValue, version: nextVersion, updated_at: new Date().toISOString() },
+    { onConflict: 'key' }
+  )
+  .select();
       if(error) throw error;
       return { success:true, key, value, version: nextVersion };
     }
