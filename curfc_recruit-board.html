@@ -1063,10 +1063,12 @@ async function sharedGet(key){
       .from('app_storage')
       .select('value, version')
       .eq('key', key)
-      .maybeSingle();
+      .order('updated_at', { ascending: false })
+      .limit(1);
     if(error) throw error;
-    return data
-      ? { key, value: JSON.stringify(data.value), version: data.version ?? 1 }
+    const row = data && data[0];
+    return row
+      ? { key, value: JSON.stringify(row.value), version: row.version ?? 1 }
       : null;
   }
   return window.storage.get(key, true);
